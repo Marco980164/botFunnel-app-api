@@ -14,9 +14,9 @@ class UserAdmin(BaseUserAdmin):
     Custom user admin.
     """
     ordering = ['id']
-    list_display = ['email', 'name']
+    list_display = ['id', 'email', 'name']
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password', 'name')}),
         (
             _('Permissions'),
             {
@@ -47,3 +47,4 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Modelo)
