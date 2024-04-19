@@ -61,3 +61,13 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(modelo), modelo.nombre)
+
+
+    def test_create_prospecto(self):
+        """Test creating a new prospecto."""
+        prospecto = models.Prospecto.objects.create(
+            nombre='Prospecto 1',
+            apellido='Apellido del prospecto 1',
+        )
+
+        self.assertEqual(str(prospecto), prospecto.nombre)
