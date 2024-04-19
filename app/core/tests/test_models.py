@@ -61,3 +61,44 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(modelo), modelo.nombre)
+
+    def test_create_conversacion(self):
+        """Test creating a new conversacion."""
+        conversacion = models.Conversacion.objects.create(
+            nombre='Conversacion 1',
+            complejidad='Complejidad de la conversacion 1',
+            proposito='Proposito de la conversacion 1',
+            emocion='Emocion de la conversacion 1',
+            analogias=False,
+            empatia='Empatia de la conversacion 1',
+            longitudRespuesta='Longitud de la respuesta de la conversacion 1',
+            retroalimentacion='Retroalimentacion de la conversacion 1',
+            tono='Tono de la conversacion 1',
+            is_active=True,
+        )
+
+        self.assertEqual(str(conversacion), conversacion.nombre)
+
+    def test_create_pregunta(self):
+        """Test creating a new pregunta."""
+        pregunta = models.Pregunta.objects.create(
+            pregunta='Pregunta 1',
+            descripcion='Descripcion de la pregunta 1',
+            tonopregunta='Tono de la pregunta 1',
+            lenguaje='Lenguaje de la pregunta 1',
+            conversacion=models.Conversacion.objects.create(
+                nombre='Conversacion 1',
+                complejidad='Complejidad de la conversacion 1',
+                proposito='Proposito de la conversacion 1',
+                emocion='Emocion de la conversacion 1',
+                analogias=False,
+                empatia='Empatia de la conversacion 1',
+                longitudRespuesta='Longitud de la respuesta de la conversacion 1',
+                retroalimentacion='Retroalimentacion de la conversacion 1',
+                tono='Tono de la conversacion 1',
+                is_active=True,
+            ),
+            is_active=True,
+        )
+
+        self.assertEqual(str(pregunta), pregunta.pregunta)

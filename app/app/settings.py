@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'user',
     'modelo',
+    'conversacion',
+    'pregunta',
 ]
 
 MIDDLEWARE = [

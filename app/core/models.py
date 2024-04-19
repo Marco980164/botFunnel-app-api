@@ -51,6 +51,36 @@ class Modelo(models.Model):
     """Modelo object."""
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField(blank=True)
+    conversaciones = models.ManyToManyField('Conversacion')
 
     def __str__(self):
         return self.nombre
+
+
+class Conversacion(models.Model):
+    """Conversacion object."""
+    nombre = models.CharField(max_length=255)
+    complejidad = models.CharField(max_length=255)
+    proposito = models.CharField(max_length=255)
+    emocion = models.CharField(max_length=255)
+    analogias = models.BooleanField(default=False)
+    empatia = models.CharField(max_length=255)
+    longitudRespuesta = models.CharField(max_length=255)
+    retroalimentacion = models.CharField(max_length=255)
+    tono = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nombre
+
+
+class Pregunta(models.Model):
+    """Pregunta object."""
+    pregunta = models.CharField(max_length=255)
+    descripcion = models.TextField(blank=True)
+    tonopregunta = models.CharField(max_length=255)
+    lenguaje = models.CharField(max_length=255)
+    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.pregunta
