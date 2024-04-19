@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'modelo',
     'conversacion',
     'pregunta',
+    'prospecto',
 ]
 
 MIDDLEWARE = [
