@@ -19,6 +19,7 @@ from prospecto.serializers import (
 
 PROSPECTOS_URL = reverse('prospecto:prospecto-list')
 
+
 def detail_url(prospecto_id):
     """Create and return a detail URL for a prospecto."""
     return reverse('prospecto:prospecto-detail', args=[prospecto_id])
@@ -36,6 +37,7 @@ def create_prospecto(nombre, **params):
 
     prospecto = Prospecto.objects.create(nombre=nombre, **defaults)
     return prospecto
+
 
 def create_user(**params):
     """Create a new user."""
@@ -60,7 +62,10 @@ class PrivateProspectoApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = create_user(email='user@example.com', password='testpass123')
+        self.user = create_user(
+            email='user@example.com',
+            password='testpass123'
+        )
         self.client.force_authenticate(self.user)
 
     def test_retrieve_prospectos(self):
@@ -75,7 +80,6 @@ class PrivateProspectoApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
-
 
     def test_get_prospectos_detail(self):
         """Test getting a prospecto detail."""
@@ -108,18 +112,19 @@ class PrivateProspectoApiTests(TestCase):
     def test_partial_update(self):
         """Test partial update of a prospecto."""
         prospecto_apellido = 'Apellido del prospecto'
-        prospecto = create_prospecto(nombre='Prospecto 1', apellido=prospecto_apellido)
+        prospecto = create_prospecto(
+            nombre='Prospecto 1',
+            apellido=prospecto_apellido
+        )
 
         payload = {'nombre': 'Nuevo nombre del prospecto'}
         url = detail_url(prospecto.id)
         res = self.client.patch(url, payload)
 
-
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         prospecto.refresh_from_db()
         self.assertEqual(prospecto.nombre, payload['nombre'])
         self.assertEqual(prospecto.apellido, prospecto_apellido)
-
 
     def test_full_update(self):
         """Test full update of a prospecto."""
@@ -145,7 +150,6 @@ class PrivateProspectoApiTests(TestCase):
         for k, v in payload.items():
             self.assertEqual(v, getattr(prospecto, k))
         self.assertEqual(prospecto.nombre, payload['nombre'])
-
 
     def test_delete_prospecto(self):
         """Test deleting a prospecto."""

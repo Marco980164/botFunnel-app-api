@@ -63,8 +63,14 @@ class PrivateModeloApiTests(TestCase):
 
     def test_retrieve_modelos(self):
         """Test retrieving a list of modelos."""
-        create_modelo(nombre='Modelo 1', descripcion='Descripcion del modelo 1')
-        create_modelo(nombre='Modelo 2', descripcion='Descripcion del modelo 2')
+        create_modelo(
+            nombre='Modelo 1',
+            descripcion='Descripcion del modelo 1'
+        )
+        create_modelo(
+            nombre='Modelo 2',
+            descripcion='Descripcion del modelo 2'
+        )
 
         res = self.client.get(MODELOS_URL)
 
@@ -76,7 +82,10 @@ class PrivateModeloApiTests(TestCase):
 
     def test_get_modelo_detail(self):
         """Test getting a modelo detail."""
-        modelo = create_modelo(nombre='Modelo 1', descripcion='Descripcion del modelo 1')
+        modelo = create_modelo(
+            nombre='Modelo 1',
+            descripcion='Descripcion del modelo 1'
+        )
 
         url = detail_url(modelo.id)
         res = self.client.get(url)
@@ -99,7 +108,10 @@ class PrivateModeloApiTests(TestCase):
 
     def test_partial_update(self):
         """Test updating a modelo with patch."""
-        modelo = create_modelo(nombre='Modelo 1', descripcion='Descripcion del modelo 1')
+        modelo = create_modelo(
+            nombre='Modelo 1',
+            descripcion='Descripcion del modelo 1'
+        )
         payload = {
             'nombre': 'Modelo 2',
         }
@@ -112,7 +124,10 @@ class PrivateModeloApiTests(TestCase):
 
     def test_full_update(self):
         """Test updating a modelo with put."""
-        modelo = create_modelo(nombre='Modelo 1', descripcion='Descripcion del modelo 1')
+        modelo = create_modelo(
+            nombre='Modelo 1',
+            descripcion='Descripcion del modelo 1'
+        )
         payload = {
             'nombre': 'Modelo 2',
             'descripcion': 'Descripcion del modelo 2',
@@ -127,7 +142,10 @@ class PrivateModeloApiTests(TestCase):
 
     def test_delete_modelo(self):
         """Test deleting a modelo."""
-        modelo = create_modelo(nombre='Modelo 1', descripcion='Descripcion del modelo 1')
+        modelo = create_modelo(
+            nombre='Modelo 1',
+            descripcion='Descripcion del modelo 1'
+        )
         url = detail_url(modelo.id)
         res = self.client.delete(url)
 

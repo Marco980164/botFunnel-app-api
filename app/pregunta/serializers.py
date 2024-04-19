@@ -19,5 +19,9 @@ class PreguntaDetailSerializer(PreguntaSerializer):
     """Serializer for Pregunta detail objects."""
 
     class Meta(PreguntaSerializer.Meta):
-        fields = PreguntaSerializer.Meta.fields + ('descripcion', 'tonopregunta', 'lenguaje')
+        fields = PreguntaSerializer.Meta.fields + (
+            'descripcion',
+            'tonopregunta',
+            'lenguaje'
+        )
         read_only_fields = ('id',)

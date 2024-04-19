@@ -19,4 +19,9 @@ class ProspectoDetailSerializer(ProspectoSerializer):
     """Serializer for prospecto detail view."""
 
     class Meta(ProspectoSerializer.Meta):
-        fields = ProspectoSerializer.Meta.fields + ('apellido', 'email', 'telefono', 'empresa')
+        fields = ProspectoSerializer.Meta.fields + (
+            'apellido',
+            'email',
+            'telefono',
+            'empresa'
+        )

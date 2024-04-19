@@ -16,6 +16,7 @@ class ConversacionSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id',)
 
+
 class ConversacionDetailSerializer(ConversacionSerializer):
     """Serializer for conversacion detail objects."""
 

@@ -93,16 +93,14 @@ class ModelTests(TestCase):
                 emocion='Emocion de la conversacion 1',
                 analogias=False,
                 empatia='Empatia de la conversacion 1',
-                longitudRespuesta='Longitud de la respuesta de la conversacion 1',
+                longitudRespuesta='Longitud de la respuesta 1',
                 retroalimentacion='Retroalimentacion de la conversacion 1',
                 tono='Tono de la conversacion 1',
                 is_active=True,
             ),
-            is_active=True,
         )
 
         self.assertEqual(str(pregunta), pregunta.pregunta)
-
 
     def test_create_prospecto(self):
         """Test creating a new prospecto."""

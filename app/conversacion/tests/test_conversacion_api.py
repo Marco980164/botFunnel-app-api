@@ -23,6 +23,7 @@ def detail_url(conversacion_id):
     """Return conversacion detail URL."""
     return reverse('conversacion:conversacion-detail', args=[conversacion_id])
 
+
 def create_conversacion(**params):
     """Helper function to create a conversacion."""
     defaults = {
@@ -132,7 +133,7 @@ class PrivateConversacionApiTests(TestCase):
             'emocion': 'Emocion de la conversacion 1',
             'analogias': False,
             'empatia': 'Empatia de la conversacion 1',
-            'longitudRespuesta': 'Longitud de la respuesta de la conversacion 1',
+            'longitudRespuesta': 'Longitud de la respuesta 1',
             'retroalimentacion': 'Retroalimentacion de la conversacion 1',
             'tono': 'Tono de la conversacion 1',
             'is_active': True,
@@ -189,7 +190,7 @@ class PrivateConversacionApiTests(TestCase):
             'emocion': 'Emocion de la conversacion 2',
             'analogias': True,
             'empatia': 'Empatia de la conversacion 2',
-            'longitudRespuesta': 'Longitud de la respuesta de la conversacion 2',
+            'longitudRespuesta': 'Longitud de la respuesta 2',
             'retroalimentacion': 'Retroalimentacion de la conversacion 2',
             'tono': 'Tono de la conversacion 2',
             'is_active': False,
@@ -205,8 +206,14 @@ class PrivateConversacionApiTests(TestCase):
         self.assertEqual(conversacion.emocion, payload['emocion'])
         self.assertEqual(conversacion.analogias, payload['analogias'])
         self.assertEqual(conversacion.empatia, payload['empatia'])
-        self.assertEqual(conversacion.longitudRespuesta, payload['longitudRespuesta'])
-        self.assertEqual(conversacion.retroalimentacion, payload['retroalimentacion'])
+        self.assertEqual(
+            conversacion.longitudRespuesta,
+            payload['longitudRespuesta']
+        )
+        self.assertEqual(
+            conversacion.retroalimentacion,
+            payload['retroalimentacion']
+        )
         self.assertEqual(conversacion.tono, payload['tono'])
         self.assertEqual(conversacion.is_active, payload['is_active'])
 
@@ -219,7 +226,7 @@ class PrivateConversacionApiTests(TestCase):
             emocion='Emocion de la conversacion 1',
             analogias=False,
             empatia='Empatia de la conversacion 1',
-            longitudRespuesta='Longitud de la respuesta de la conversacion 1',
+            longitudRespuesta='Longitud de la respuesta 1',
             retroalimentacion='Retroalimentacion de la conversacion 1',
             tono='Tono de la conversacion 1',
             is_active=True,
@@ -228,4 +235,4 @@ class PrivateConversacionApiTests(TestCase):
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Conversacion.objects.filter(id=conversacion.id).exists())
+        self.assertFalse(Conversacion.objects.filter(id=conversacion.id).exists()) # noqa

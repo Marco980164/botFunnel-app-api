@@ -26,9 +26,3 @@ class ProspectoViewSet(viewsets.ModelViewSet):
             return serializers.ProspectoSerializer
 
         return self.serializer_class
-
-
-
-
-
-

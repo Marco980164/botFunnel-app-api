@@ -22,7 +22,10 @@
 
 # def create_user(email='user@example.com', password='testpass'):
 #     """Helper function to create a user."""
-#     return get_user_model().objects.create_user(email=email, password=password)
+#     return get_user_model().objects.create_user(
+#         email=email,
+#         password=password
+#     )
 
 
 # def detail_url(pregunta_id):
