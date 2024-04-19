@@ -11,5 +11,12 @@ class ModeloSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Modelo
-        fields = ('id', 'nombre', 'descripcion')
+        fields = ('id', 'nombre')
         read_only_fields = ('id',)
+
+
+class ModeloDetailSerializer(ModeloSerializer):
+    """Serializer for modelo detail objects."""
+
+    class Meta(ModeloSerializer.Meta):
+        fields = ModeloSerializer.Meta.fields + ('descripcion',)
