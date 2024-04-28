@@ -38,18 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders', # Add this line
     'core',
     'rest_framework',
     'rest_framework.authtoken',
     'drf_spectacular',
     'user',
     'modelo',
-    'conversacion',
-    'pregunta',
     'prospecto',
+    'reporte',
+    'calificacionPregunta',
+    'calificacionConversacion',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # Add this line
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,6 +60,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [ # Add this line
+    "http://localhost:5173",
 ]
 
 ROOT_URLCONF = 'app.urls'

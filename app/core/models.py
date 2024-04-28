@@ -51,6 +51,7 @@ class Modelo(models.Model):
     """Modelo object."""
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField(blank=True)
+    is_active = models.BooleanField(default=False)
     conversaciones = models.ManyToManyField('Conversacion')
 
     def __str__(self):
@@ -69,6 +70,7 @@ class Conversacion(models.Model):
     retroalimentacion = models.CharField(max_length=255)
     tono = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
+    preguntas = models.ManyToManyField('Pregunta')
 
     def __str__(self):
         return self.nombre
@@ -80,7 +82,6 @@ class Pregunta(models.Model):
     descripcion = models.TextField(blank=True)
     tonopregunta = models.CharField(max_length=255)
     lenguaje = models.CharField(max_length=255)
-    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.pregunta
@@ -96,3 +97,34 @@ class Prospecto(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class Reporte(models.Model):
+    """Reporte object."""
+    prospecto = models.ForeignKey('Prospecto', on_delete=models.CASCADE)
+    modelo = models.ForeignKey('Modelo', on_delete=models.CASCADE)
+    calGeneral = models.FloatField()
+    fechaEntrevista = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.fecha
+
+
+class CalificacionPregunta(models.Model):
+    """calificacionPregunta object."""
+    pregunta = models.ForeignKey('Pregunta', on_delete=models.CASCADE)
+    prospecto = models.ForeignKey('Prospecto', on_delete=models.CASCADE)
+    calificacion = models.FloatField()
+
+    def __str__(self):
+        return self.calificacion
+
+
+class CalificacionConversacion(models.Model):
+    """calificacionConversacion object."""
+    conversacion = models.ForeignKey('Conversacion', on_delete=models.CASCADE)
+    reporte = models.ForeignKey('Reporte', on_delete=models.CASCADE)
+    calificacion = models.FloatField()
+
+    def __str__(self):
+        return self.calificacion

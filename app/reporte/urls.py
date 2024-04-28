@@ -1,7 +1,6 @@
 """
-URL mappings for conversacion app.
+URL mappings for the Reporte app.
 """
-
 from django.urls import (
     path,
     include,
@@ -9,13 +8,13 @@ from django.urls import (
 
 from rest_framework.routers import DefaultRouter
 
-from conversacion import views
+from reporte import views
 
 
 router = DefaultRouter()
-router.register('conversaciones', views.ConversacionViewSet)
+router.register('reportes', views.ReporteViewSet)
 
-app_name = 'conversacion'
+app_name = 'reporte'
 
 urlpatterns = [
     path('', include(router.urls)),

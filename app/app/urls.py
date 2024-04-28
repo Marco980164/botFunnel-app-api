@@ -31,7 +31,9 @@ urlpatterns = [
     ),
     path('api/user/', include('user.urls')),
     path('api/modelo/', include('modelo.urls')),
-    path('api/conversacion/', include('conversacion.urls')),
-    path('api/pregunta/', include('pregunta.urls')),
     path('api/prospecto/', include('prospecto.urls')),
+    path('api/reporte/', include('reporte.urls')),
+    path('api/calificacionPregunta/', include('calificacionPregunta.urls')),
+    path('api/calificacionConversacion/',
+         include('calificacionConversacion.urls')),
 ]

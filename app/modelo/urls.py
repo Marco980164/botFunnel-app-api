@@ -14,6 +14,8 @@ from modelo import views
 
 router = DefaultRouter()
 router.register('modelos', views.ModeloViewSet)
+router.register('conversaciones', views.ConversacionViewSet)
+router.register('preguntas', views.PreguntaViewSet)
 
 app_name = 'modelo'
 
