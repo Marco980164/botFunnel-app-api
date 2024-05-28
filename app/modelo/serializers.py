@@ -25,6 +25,10 @@ class PreguntaSerializer(serializers.ModelSerializer):
 
 class ConversacionSerializer(serializers.ModelSerializer):
     """Serializer for conversacion objects."""
+    preguntas = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Pregunta.objects.all(), required=False
+    )
 
     class Meta:
         model = Conversacion
@@ -76,10 +80,14 @@ class ConversacionSerializer(serializers.ModelSerializer):
 
 class ModeloSerializer(serializers.ModelSerializer):
     """Serializer for modelo objects."""
+    conversaciones = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Conversacion.objects.all(), required=False
+    )
 
     class Meta:
         model = Modelo
-        fields = ('id', 'nombre', 'conversaciones')
+        fields = ('id', 'nombre', 'is_active', 'conversaciones')
         read_only_fields = ('id',)
 
     def create(self, validated_data):

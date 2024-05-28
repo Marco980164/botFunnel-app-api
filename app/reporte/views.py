@@ -12,10 +12,10 @@ from reporte import serializers
 class ReporteViewSet(viewsets.ModelViewSet):
     """View for manage reporte API."""
     serializer_class = serializers.ReporteSerializer
-    queryset = Reporte.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    queryset = Reporte.objects.all().order_by('id')
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """Return objects for the current authenticated user only."""
-        return self.queryset.order_by('id')
+        return self.queryset.order_by('id').select_related('prospecto')

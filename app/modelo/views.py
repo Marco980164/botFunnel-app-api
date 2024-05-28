@@ -17,9 +17,9 @@ from modelo import serializers
 class ModeloViewSet(viewsets.ModelViewSet):
     """Manage modelos in the database."""
     serializer_class = serializers.ModeloDetailSerializer
-    queryset = Modelo.objects.all().order_by('-id')
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    queryset = Modelo.objects.all().order_by('id')
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_serializer_class(self):
         """Return appropriate serializer class."""
@@ -29,23 +29,27 @@ class ModeloViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
 
-class ConversacionViewSet(mixins.DestroyModelMixin,
+class ConversacionViewSet(mixins.RetrieveModelMixin,
+                          mixins.DestroyModelMixin,
                           mixins.UpdateModelMixin,
                           mixins.ListModelMixin,
+                          mixins.CreateModelMixin,
                           viewsets.GenericViewSet):
     """Manage conversaciones in the database."""
     serializer_class = serializers.ConversacionSerializer
-    queryset = Conversacion.objects.all().order_by('-id')
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    queryset = Conversacion.objects.all().order_by('id')
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
 
-class PreguntaViewSet(mixins.DestroyModelMixin,
+class PreguntaViewSet(mixins.RetrieveModelMixin,
+                      mixins.DestroyModelMixin,
                       mixins.ListModelMixin,
                       mixins.UpdateModelMixin,
+                      mixins.CreateModelMixin,
                       viewsets.GenericViewSet):
     """Manage preguntas in the database."""
     serializer_class = serializers.PreguntaSerializer
-    queryset = Pregunta.objects.all().order_by('-id')
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    queryset = Pregunta.objects.all().order_by('id')
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)

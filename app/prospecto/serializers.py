@@ -11,7 +11,7 @@ class ProspectoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Prospecto
-        fields = ('id', 'nombre')
+        fields = ('id', 'nombre', 'email')
         read_only_fields = ('id',)
 
 
@@ -21,7 +21,6 @@ class ProspectoDetailSerializer(ProspectoSerializer):
     class Meta(ProspectoSerializer.Meta):
         fields = ProspectoSerializer.Meta.fields + (
             'apellido',
-            'email',
             'telefono',
             'empresa'
         )

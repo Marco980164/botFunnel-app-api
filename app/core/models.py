@@ -104,10 +104,10 @@ class Reporte(models.Model):
     prospecto = models.ForeignKey('Prospecto', on_delete=models.CASCADE)
     modelo = models.ForeignKey('Modelo', on_delete=models.CASCADE)
     calGeneral = models.FloatField()
-    fechaEntrevista = models.DateTimeField(auto_now_add=True)
+    fechaEntrevista = models.DateField()
 
     def __str__(self):
-        return self.fecha
+        return self.prospecto.nombre
 
 
 class CalificacionPregunta(models.Model):
@@ -117,7 +117,7 @@ class CalificacionPregunta(models.Model):
     calificacion = models.FloatField()
 
     def __str__(self):
-        return self.calificacion
+        return self.prospecto.nombre
 
 
 class CalificacionConversacion(models.Model):
@@ -127,4 +127,4 @@ class CalificacionConversacion(models.Model):
     calificacion = models.FloatField()
 
     def __str__(self):
-        return self.calificacion
+        return self.reporte.prospecto.nombre

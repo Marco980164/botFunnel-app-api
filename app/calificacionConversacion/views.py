@@ -12,9 +12,9 @@ from calificacionConversacion import serializers
 class CalificacionConversacionViewSet(viewsets.ModelViewSet):
     """View for manage calificacionConversacion API."""
     serializer_class = serializers.CalificacionConversacionSerializer
-    queryset = CalificacionConversacion.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    queryset = CalificacionConversacion.objects.all().order_by('id')
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """Return objects for the current authenticated user only."""

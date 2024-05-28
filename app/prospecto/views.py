@@ -13,8 +13,8 @@ class ProspectoViewSet(viewsets.ModelViewSet):
     """View for manage prospecto API."""
     serializer_class = serializers.ProspectoDetailSerializer
     queryset = Prospecto.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         """Return objects for the current authenticated user only."""
