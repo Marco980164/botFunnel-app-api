@@ -11,6 +11,8 @@ name = "Juan"
 purpose = "ayudar a calificar clientes prospectos"
 enviroment = "una empresa desarrolladora de software"
 company = "Cantera Digital"
+extra_context = "sin contexto extra"
+
 complexity = "Coloquial"
 conversation_purpose = "Entrevistar"
 emotion = "Asertividad"
@@ -32,6 +34,7 @@ config = (
     f"Longitud de respuestas: {length}."
     f"Nivel de retroalimentación por parte del cliente: {feedback}."
     f"Tono de la conversación: {tone}."
+    f"Contexto extra: {extra_context}"
 )
 
 # Diccionario para correccion de pregunta y adecuacion de la misma
@@ -46,7 +49,7 @@ questions = [
 # Se usara la variable clasificacion para guardar la respuesta del chatbot
 answer_classification = [
     {"role": "system",
-     "content": "Evalua la pregunta y respuesta. Si la respuesta es correcta con respecto a la pregunta, escribe OK. Si la respuesta es incorrecta, escribe ERROR. Si la respuesta es una pregunta o duda del usuario, escribe DOUBT."
+     "content": "Evalua la pregunta y respuesta. Si la respuesta es correcta con respecto a la pregunta, escribe OK. Si la respuesta es incorrecta o si el usuario esta preguntando una duda escribe ERROR."
      },
 ]
 
@@ -54,17 +57,10 @@ answer_classification = [
 # Se usara la variable correccion_del_usuario para guardar la respuesta del chatbot
 answer_correction = [
     {"role": "system",
-     "content": "Dile al usuario de forma educada que la respuesta que nos dio no es correcta y repitele la pregunta."
+     "content": "Dile al usuario de forma educada que la respuesta que nos dio no es correcta y repitele la pregunta. Si esta preguntando una duda contestala de forma educada y pide que repita la pregunta."
     },
 ]
 
-# Diccionario para corregir respuestas desviadas o con dudas
-# Se usara la variable duda_del_usuario para guardar la respuesta del chatbot
-doubt_answering = [
-    {"role": "system",
-        "content": "Contesta la duda del usuario de forma educada y repitele la pregunta."
-    },
-]
 
 # Diccionario para calificar las preguntas y respuestas
 # Se usara la variable evaluacion para guardar la respuesta del chatbot
@@ -160,28 +156,6 @@ for pregunta in preguntas:
             correccion_del_usuario = content.choices[0].message.content
             print(correccion_del_usuario)
 
-        elif clasificacion == "DOUBT":
-            print("Respuesta correcta pero no es la esperada. Aqui debe ir el prompt para respuesta desviada o con dudas")
-
-            prompt_doubt = (
-                "Duda que expreso el usuario: "
-                + input_message
-                + " Pregunta por repetir despues de contestar su duda: "
-                + pregunta_corregida
-            )
-            # Pasarle la pregunta corregida al bot para que le pida al usuario que repita la pregunta
-            doubt_answering.append({"role": "user", "content": prompt_doubt})
-            # Guardar la respuesta del chatbot en content y despues en la variable correccion_del_usuario
-
-            content = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=doubt_answering,
-                temperature=1,
-                max_tokens=200,
-            )
-
-            duda_del_usuario = content.choices[0].message.content
-            print(duda_del_usuario)
 
         else:
             print("Respuesta correcta. Aqui debe ir el prompt para respuesta correcta")
