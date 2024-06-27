@@ -2,6 +2,8 @@
 Views for the user API.
 """
 
+# from app.core.models import User
+from core.models import User
 from rest_framework import generics, authentication, permissions
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
@@ -40,3 +42,22 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
         Retrieve and return the authenticated user.
         """
         return self.request.user
+
+
+class ListUsersView(generics.ListAPIView):
+    """
+    List all users.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    # authentication_classes = (authentication.TokenAuthentication,)
+    # permission_classes = (permissions.IsAuthenticated,)
+
+class DeleteUserView(generics.DestroyAPIView):
+    """
+    Delete a user.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    # authentication_classes = (authentication.TokenAuthentication,)
+    # permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)

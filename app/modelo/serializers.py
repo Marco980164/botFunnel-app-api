@@ -27,7 +27,8 @@ class ConversacionSerializer(serializers.ModelSerializer):
     """Serializer for conversacion objects."""
     preguntas = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=Pregunta.objects.all(), required=False
+        queryset=Pregunta.objects.all(),
+        required=False
     )
 
     class Meta:
@@ -52,11 +53,12 @@ class ConversacionSerializer(serializers.ModelSerializer):
         """Create a new conversacion."""
         preguntas = validated_data.pop('preguntas', [])
         conversacion = Conversacion.objects.create(**validated_data)
-        for pregunta in preguntas:
-            pregunta_obj, created = Pregunta.objects.get_or_create(
-                **pregunta,
-            )
-            conversacion.preguntas.add(pregunta_obj)
+        # for pregunta in preguntas:
+        #     pregunta_obj, created = Pregunta.objects.get_or_create(
+        #         **pregunta,
+        #     )
+        #     conversacion.preguntas.add(pregunta_obj)
+        conversacion.preguntas.set(preguntas)
 
         return conversacion
 
@@ -64,12 +66,13 @@ class ConversacionSerializer(serializers.ModelSerializer):
         """Update a conversacion."""
         preguntas = validated_data.pop('preguntas', None)
         if preguntas is not None:
-            instance.preguntas.clear()
-            for pregunta in preguntas:
-                pregunta_obj, created = Pregunta.objects.get_or_create(
-                    **pregunta,
-                )
-                instance.preguntas.add(pregunta_obj)
+            # instance.preguntas.clear()
+            # for pregunta in preguntas:
+            #     pregunta_obj, created = Pregunta.objects.get_or_create(
+            #         **pregunta,
+            #     )
+            #     instance.preguntas.add(pregunta_obj)
+            instance.preguntas.set(preguntas)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
@@ -82,7 +85,8 @@ class ModeloSerializer(serializers.ModelSerializer):
     """Serializer for modelo objects."""
     conversaciones = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=Conversacion.objects.all(), required=False
+        queryset=Conversacion.objects.all(),
+        required=False
     )
 
     class Meta:
@@ -94,11 +98,12 @@ class ModeloSerializer(serializers.ModelSerializer):
         """Create a new modelo."""
         conversaciones = validated_data.pop('conversaciones', [])
         modelo = Modelo.objects.create(**validated_data)
-        for conversacion in conversaciones:
-            conversacion_obj, created = Conversacion.objects.get_or_create(
-                **conversacion,
-            )
-            modelo.conversaciones.add(conversacion_obj)
+        # for conversacion in conversaciones:
+        #     conversacion_obj, created = Conversacion.objects.get_or_create(
+        #         **conversacion,
+        #     )
+        #     modelo.conversaciones.add(conversacion_obj)
+        modelo.conversaciones.set(conversaciones)
 
         return modelo
 
@@ -106,12 +111,13 @@ class ModeloSerializer(serializers.ModelSerializer):
         """Update a modelo."""
         conversaciones = validated_data.pop('conversaciones', None)
         if conversaciones is not None:
-            instance.conversaciones.clear()
-            for conversacion in conversaciones:
-                conversacion_obj, created = Conversacion.objects.get_or_create(
-                    **conversacion,
-                )
-                instance.conversaciones.add(conversacion_obj)
+            # instance.conversaciones.clear()
+            # for conversacion in conversaciones:
+            #     conversacion_obj, created = Conversacion.objects.get_or_create(
+            #         **conversacion,
+            #     )
+            #     instance.conversaciones.add(conversacion_obj)
+            instance.conversaciones.set(conversaciones)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

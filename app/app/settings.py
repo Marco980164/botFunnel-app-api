@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'reporte',
     'calificacionPregunta',
     'calificacionConversacion',
+    'configBot',
 ]
 
 MIDDLEWARE = [

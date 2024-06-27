@@ -128,3 +128,15 @@ class CalificacionConversacion(models.Model):
 
     def __str__(self):
         return self.reporte.prospecto.nombre
+
+
+class ConfigBot(models.Model):
+    """ConfigBot object."""
+    nombre = models.CharField(max_length=255)
+    proposito = models.CharField(max_length=255)
+    nombreNegocio = models.CharField(max_length=255)
+    descripcionNegocio = models.TextField(blank=True)
+    infoExtra = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.nombre

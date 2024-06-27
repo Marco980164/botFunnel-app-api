@@ -36,4 +36,5 @@ urlpatterns = [
     path('api/calificacionPregunta/', include('calificacionPregunta.urls')),
     path('api/calificacionConversacion/',
          include('calificacionConversacion.urls')),
+    path('api/configBot/', include('configBot.urls')),
 ]
