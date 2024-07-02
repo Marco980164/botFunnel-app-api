@@ -133,10 +133,18 @@ class CalificacionConversacion(models.Model):
 class ConfigBot(models.Model):
     """ConfigBot object."""
     nombre = models.CharField(max_length=255)
-    proposito = models.CharField(max_length=255)
+    proposito = models.TextField(blank=False)
     nombreNegocio = models.CharField(max_length=255)
-    descripcionNegocio = models.TextField(blank=True)
+    descripcionNegocio = models.TextField(blank=False)
     infoExtra = models.TextField(blank=True)
 
     def __str__(self):
         return self.nombre
+
+
+class InstanciaConversacion(models.Model):
+    """InstanciaConversacion object."""
+    conversacion = models.ForeignKey('Conversacion', on_delete=models.CASCADE)
+    pregunta = models.ForeignKey('Pregunta', on_delete=models.CASCADE)
+    preguntaRealizada = models.TextField(blank=False)
+    respuestaCliente = models.TextField(blank=False)
