@@ -148,3 +148,4 @@ class InstanciaConversacion(models.Model):
     pregunta = models.ForeignKey('Pregunta', on_delete=models.CASCADE)
     preguntaRealizada = models.TextField(blank=False)
     respuestaCliente = models.TextField(blank=False)
+    

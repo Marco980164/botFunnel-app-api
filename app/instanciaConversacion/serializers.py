@@ -15,5 +15,6 @@ class ChatbotRequestSerializer(serializers.Serializer):
 class ChatbotResponseSerializer(serializers.Serializer):
     """Serializer for chatbot response objects."""
     pregunta = serializers.CharField(max_length=255)
-    respuesta = serializers.CharField(max_length=255)
+    respuesta = serializers.CharField()
     calificacion = serializers.IntegerField()
+    respuestaValida = serializers.BooleanField()

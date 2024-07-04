@@ -19,7 +19,10 @@ class ChatBotAPIView(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        idConversacion = serializer.validated_data.get('idConversacion')
+        idPregunta = serializer.validated_data.get('idPregunta')
         pregunta = serializer.validated_data.get('pregunta')
+        respuesta = serializer.validated_data.get('respuesta')
 
         api_url = "http://127.0.0.1:8000/api/configBot/configBot/"
         headers = { 'content-type': 'application/json' }
@@ -37,38 +40,90 @@ class ChatBotAPIView(viewsets.ModelViewSet):
         descripcionNegocio = data[0].get('descripcionNegocio')
         infoExtra = data[0].get('infoExtra')
 
+        api_url = "http://127.0.0.1:8000/api/modelo/conversaciones/"
 
-        config = (
-            f"Eres un chatbot que se llama {nombre} con el propósito de {proposito} dentro del entorno de {descripcionNegocio} llamada {nombreNegocio}."
-            f"Contexto extra: {infoExtra}"
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+        except requests.exceptions.RequestException as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-            # f"Complejidad del lenguaje: {complexity}."
-            # f"Propósito de la conversación: {conversation_purpose}."
-            # f"Emoción de la conversación: {emotion}."
-            # f"Uso de analogías: {analogies}."
-            # f"Nivel de empatía: {empathy}."
-            # f"Longitud de respuestas: {length}."
-            # f"Nivel de retroalimentación por parte del cliente: {feedback}."
-            # f"Tono de la conversación: {tone}."
+        for conversacion in data:
+            if conversacion.get('id') == idConversacion:
+                conversacion = conversacion
+                break
 
+        api_url = "http://127.0.0.1:8000/api/modelo/preguntas/"
+
+        try:
+            response = requests.get(api_url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+        except requests.exceptions.RequestException as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        for elemento in data:
+            if elemento.get('id') == idPregunta:
+                preguntaDesdeId = elemento.get('pregunta')
+                break
+
+
+        revisionRespuesta = ("De acuerdo la pregunta y respuesta que te mande el usuario revisa lo siguiente: ¿La respuesta es valida para la pregunta? Si es valida responde con 'true' de lo contrario responde con un 'false'")
+        promptRevisionRespuesta = ("Pregunta: " + pregunta + " Respuesta: " + respuesta)
+
+        evaluacionPreguntas = ("Evalua la pregunta junto con la respuesta en un rango del 1 al 10 dependiendo de que tan acertada fue la respuesta. Regresa exclusivamente el valor de la calificacion.")
+
+        correccionUsuario = ("Tu nombre es " + nombre + "Tu proposito es: "+ proposito + "el nombre del negocio en donde estas es: " + nombreNegocio + "la descripcion del negocio es: " + descripcionNegocio + "informacion extra: " + infoExtra +"Dile al usuario que la respuesta no es correcta o resuelve su duda si es que te esta preguntado algo, y despues repitele la pregunta. Repite la pregunta: " + pregunta)
+
+        client = OpenAI(api_key="")
+        resultadoRevisionRespuesta = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": revisionRespuesta},
+                {"role": "user", "content": promptRevisionRespuesta},
+            ]
         )
 
-        # client = OpenAI(api_key="")
-        # prueba = client.chat.completions.create(
-        #     model="gpt-3.5-turbo",
-        #     messages=[
-        #         {"role": "system", "content": "You are a helpful assistant."},
-        #         {"role": "user", "content": "Hola, ¿cómo estás?"},
-        #     ]
-        # )
+        if resultadoRevisionRespuesta.choices[0].message.content == "true":
+            revisionRespuestaBoolean = True
+        else:
+            revisionRespuestaBoolean = False
 
-        # cosa =prueba.choices[0].message.content
+        if revisionRespuestaBoolean:
+            resultadoEvaluacionPreguntas = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": evaluacionPreguntas},
+                    {"role": "user", "content": "Pregunta: " + pregunta + " Respuesta: " + respuesta}
+                ]
+            )
 
-        response_data = {
-            'pregunta': pregunta,
-            'respuesta': f"{config}",
-            'calificacion': 10
-        }
+            calificacion = resultadoEvaluacionPreguntas.choices[0].message.content
+
+            response_data = {
+                "pregunta": pregunta,
+                "respuesta": f"{revisionRespuesta}",
+                "calificacion": calificacion,
+                "respuestaValida": revisionRespuestaBoolean
+            }
+
+        else:
+            resultadoCorreccionUsuario = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": correccionUsuario},
+                ]
+            )
+
+            repeticionDePregunta = resultadoCorreccionUsuario.choices[0].message.content
+
+            response_data = {
+                "pregunta": pregunta,
+                "respuesta": f"{repeticionDePregunta}",
+                "calificacion": 0,
+                "respuestaValida": revisionRespuestaBoolean
+            }
 
         response_serializer = serializers.ChatbotResponseSerializer(data=response_data)
         response_serializer.is_valid(raise_exception=True)
