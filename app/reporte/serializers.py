@@ -8,7 +8,7 @@ from core.models import Reporte, Prospecto
 
 class DateTimeToDateField(serializers.ReadOnlyField):
     def to_representation(self, value):
-        return value.date()
+        return value
 
 
 class ProspectoSerializer(serializers.ModelSerializer):
